@@ -1,0 +1,70 @@
+kind: pipeline
+type: docker
+name: business-product
+
+# 设置工作空间
+workspace:
+  base: /go
+  path: business-product
+
+steps:
+  - name: 执行单元测试, 打包项目
+    image: golang
+    commands:
+      - go version
+      - export GOPROXY=https://goproxy.cn,direct
+      #- go test ./...
+      - CGO_ENABLED=0 go build -tags netgo -o ./main ./main.go
+
+  - name: 生成docker镜像
+    commands:
+      - docker build -t product .
+
+  - name: 运行
+    commands:
+      - docker run -d -p 80:80 product
+
+#  - name: 部署到k8s
+#    image: reg.miz.so/drone/drone-deploy-go:latest
+#    docker:
+#      privileged: true
+#    settings:
+#      current_branch: ${DRONE_COMMIT_BRANCH}
+#      ver: ${DRONE_TAG}
+#      flow: k8s
+
+  #  - name: 部署ingress
+  #    image: reg.miz.so/drone/drone-deploy-go:latest
+  #    docker:
+  #      privileged: true
+  #    settings:
+  #      current_branch: ${DRONE_COMMIT_BRANCH}
+  #      ver: ${DRONE_TAG}
+  #      flow: k8s_ing
+
+
+#  - name: 消息通知
+#    image: reg.miz.so/drone/drone-deploy-go:latest
+#    docker:
+#      privileged: true
+#    settings:
+#      current_branch: ${DRONE_COMMIT_BRANCH}
+#      ver: ${DRONE_TAG}
+#      ding_token:
+#        from_secret: ding_token
+#      flow: notify
+#    when:
+#      status:
+#        - success
+
+trigger: #触发器
+  branch:
+    - main #当分支为xxxx时触发
+  event:
+    include:
+      - push
+
+node:
+  env: aliyun-dev #alidev环境 agent标识
+#node:
+#  env: local-dev      #dev环境 agent标识
