@@ -57,12 +57,12 @@ name: business-product
 #      status:
 #        - success
 
-#trigger: #触发器
-#  branch:
-#    - main #当分支为xxxx时触发
-#  event:
-#    include:
-#      - push
+trigger: #触发器
+  branch:
+    - main #当分支为xxxx时触发
+  event:
+    include:
+      - push
 #
 #node:
 #  env: aliyun-dev #alidev环境 agent标识

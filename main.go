@@ -7,6 +7,6 @@ import (
 
 func main() {
 	for {
-		fmt.Println("一直运行1", time.Now().Unix())
+		fmt.Println("一直运行12", time.Now().Unix())
 	}
 }
