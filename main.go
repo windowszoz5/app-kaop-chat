@@ -1,12 +1,9 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import "fmt"
 
 func main() {
 	for {
-		fmt.Println("一直运行12", time.Now().Unix())
+		fmt.Println("?????????")
 	}
 }
