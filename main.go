@@ -26,8 +26,6 @@ func main() {
 	r.Use(middleware.MarkLog)
 
 	//连接微服务服务端
-	// 1.用rpc连接服务器  --Dial（）
-
 	conn, err := grpc.Dial("localhost:3366", grpc.WithInsecure())
 	if err != nil {
 		fmt.Println("Dial err:", err)
@@ -38,7 +36,10 @@ func main() {
 
 	// 配置路由
 	r.GET("/hello", func(c *gin.Context) {
-		productClient.Ping(c.Request.Context(), &rpc.Request{Ping: "1"})
+		_, err := productClient.Ping(c.Request.Context(), &rpc.Request{Ping: "1"})
+		if err != nil {
+			return
+		}
 		c.JSON(200, gin.H{
 			"code": "1",
 			"data": "data1 ",
