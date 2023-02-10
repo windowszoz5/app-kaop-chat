@@ -8,13 +8,13 @@ import (
 )
 
 type KibnanaLog struct {
-	Url     string `json:"url"`  //服务名称
-	Body    string `json:"body"` //服务名称
-	Ip      string `json:"ip"`
-	Header  string `json:"header"`
-	Method  string `json:"method"`
-	CtxId   string `json:"ctx_id"`
-	Message string `json:"message"`
+	Url           string `json:"url"`  //服务名称
+	Body          string `json:"body"` //服务名称
+	Ip            string `json:"ip"`
+	RequestHeader string `json:"request_header"`
+	Method        string `json:"method"`
+	CtxId         string `json:"ctx_id"`
+	Message       string `json:"message"`
 }
 
 func KibLog(ctx *gin.Context, write string) {
@@ -38,20 +38,19 @@ func KibLog(ctx *gin.Context, write string) {
 	}
 
 	data := KibnanaLog{
-		Url:     req.Host + req.URL.String(),
-		Body:    (string)(buf),
-		CtxId:   "222",
-		Header:  header,
-		Ip:      ctx.ClientIP(),
-		Method:  req.Method,
-		Message: write,
+		Url:           req.Host + req.URL.String(),
+		Body:          (string)(buf),
+		CtxId:         ctx.Request.Context().Value(X_REQ_UUID).(string),
+		RequestHeader: header,
+		Ip:            ctx.ClientIP(),
+		Method:        req.Method,
+		Message:       write,
 	}
 	_, err := compose.EsClient.Index().
 		Index(config.RunConf.Branch).
 		Type(config.RunConf.Name).
 		BodyJson(data).
 		Do()
-	fmt.Println("写入", ctx.Value(X_REQ_UUID))
 	if err != nil {
 		// Handle error
 		panic(err)

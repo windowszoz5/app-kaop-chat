@@ -23,7 +23,7 @@ func MarkLog(ctx *gin.Context) {
 	ctx.Writer = writer
 	ctx.Next()
 
-	//otime := time.Now()
+	//完成请求往下执行
 	ctxc := context.WithValue(ctx.Request.Context(), common.X_REQ_UUID, reqUUID)
 	ctx.Request = ctx.Request.WithContext(ctxc)
 

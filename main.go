@@ -4,8 +4,11 @@ import (
 	"drone/compose"
 	"drone/config"
 	"drone/route/middleware"
+	"drone/server/rpc"
 	"flag"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"google.golang.org/grpc"
 )
 
 func main() {
@@ -18,11 +21,24 @@ func main() {
 	//初始ES
 	compose.InitEs()
 
+	//中间件
 	r := gin.Default()
 	r.Use(middleware.MarkLog)
 
+	//连接微服务服务端
+	// 1.用rpc连接服务器  --Dial（）
+
+	conn, err := grpc.Dial("localhost:3366", grpc.WithInsecure())
+	if err != nil {
+		fmt.Println("Dial err:", err)
+		return
+	}
+	defer conn.Close()
+	productClient := rpc.NewProductClient(conn)
+
 	// 配置路由
 	r.GET("/hello", func(c *gin.Context) {
+		productClient.Ping(c.Request.Context(), &rpc.Request{Ping: "1"})
 		c.JSON(200, gin.H{
 			"code": "1",
 			"data": "data1 ",
