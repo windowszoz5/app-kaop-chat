@@ -1,8 +1,0 @@
-kind: pipeline # 定义一个管道
-type: docker # 当前管道的类型
-name: test # 当前管道的名称
-steps: # 定义管道的执行步骤
-  - name: test # 步骤名称
-    image: node:latest # 当前步骤使用的镜像
-    commands: # 当前步骤执行的命令
-      - echo 测试drone执行
