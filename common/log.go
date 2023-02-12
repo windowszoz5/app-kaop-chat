@@ -8,48 +8,50 @@ import (
 )
 
 type KibnanaLog struct {
-	Url           string `json:"url"`  //服务名称
-	Body          string `json:"body"` //服务名称
-	Ip            string `json:"ip"`
-	RequestHeader string `json:"request_header"`
-	Method        string `json:"method"`
-	CtxId         string `json:"ctx_id"`
-	Message       string `json:"message"`
+	Url       string `json:"url"`        //请求地址
+	Body      string `json:"body"`       //post请求体
+	Ip        string `json:"ip"`         //请求IP
+	ReqHeader string `json:"req_header"` //请求头
+	ReqUUid   string `json:"req_uuid"`   //请求UID
+	Method    string `json:"method"`     //请求方法
+	Message   string `json:"message"`    //请求相应
 }
 
 func KibLog(ctx *gin.Context, write string) {
+	//post请求头数据
 	buf, _ := ctx.GetRawData()
 
-	//必须先解析Form
+	//获取参数
 	ctx.Request.ParseForm()
-	dataMap := make(map[string]string)
-	//说明:须post方法,加: 'Content-Type': 'application/x-www-form-urlencoded'
+	var data string
 	for key, _ := range ctx.Request.PostForm {
-		dataMap[key] = ctx.PostForm(key)
+		data += fmt.Sprintf("%v:%v ", key, ctx.PostForm(key))
 	}
-	//
 	for key, _ := range ctx.Request.URL.Query() {
-		dataMap[key] = ctx.Query(key)
+		data += fmt.Sprintf("%v:%v ", key, ctx.PostForm(key))
 	}
+
+	//请求头
 	req := ctx.Request
 	var header string
 	for i, v := range req.Header {
 		header += fmt.Sprintf("%v:%v", i, v)
 	}
 
-	data := KibnanaLog{
-		Url:           req.Host + req.URL.String(),
-		Body:          (string)(buf),
-		CtxId:         "12321",
-		RequestHeader: header,
-		Ip:            ctx.ClientIP(),
-		Method:        req.Method,
-		Message:       write,
+	//写入es
+	esData := KibnanaLog{
+		Url:       req.Host + req.URL.String(),
+		Body:      (string)(buf),
+		ReqUUid:   ctx.GetString(X_REQ_UUID),
+		ReqHeader: header,
+		Ip:        ctx.ClientIP(),
+		Method:    req.Method,
+		Message:   write,
 	}
 	_, err := compose.EsClient.Index().
 		Index(config.RunConf.Branch).
 		Type(config.RunConf.Name).
-		BodyJson(data).
+		BodyJson(esData).
 		Do()
 	if err != nil {
 		// Handle error

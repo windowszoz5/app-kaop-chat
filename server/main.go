@@ -18,8 +18,6 @@ type Product struct {
 }
 
 func (Product) Ping(ctx context.Context, req *rpc.Request) (*rpc.Response, error) {
-	md, _ := metadata.FromIncomingContext(ctx)
-	fmt.Println(md)
 	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
 }
 
@@ -44,7 +42,8 @@ type serverStats struct{}
 
 func (h *serverStats) TagRPC(ctx context.Context, info *stats.RPCTagInfo) context.Context {
 	fmt.Println("333333")
-	fmt.Println("值", ctx)
+	md, _ := metadata.FromIncomingContext(ctx)
+	fmt.Println("值", md)
 	return ctx
 }
 

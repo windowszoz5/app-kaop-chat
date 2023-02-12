@@ -7,6 +7,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// MarkLog 标记请求
 func MarkLog(ctx *gin.Context) {
 	reqUUID := ctx.GetHeader(common.X_REQ_UUID)
 	if reqUUID == "" {
@@ -21,8 +22,8 @@ func MarkLog(ctx *gin.Context) {
 		ctx.Writer,
 		bytes.NewBuffer([]byte{}),
 	}
-
 	ctx.Writer = writer
+
 	ctx.Next()
 
 	//响应后执行
