@@ -40,7 +40,7 @@ func KibLog(ctx *gin.Context, write string) {
 	data := KibnanaLog{
 		Url:           req.Host + req.URL.String(),
 		Body:          (string)(buf),
-		CtxId:         ctx.Request.Context().Value(X_REQ_UUID).(string),
+		CtxId:         "12321",
 		RequestHeader: header,
 		Ip:            ctx.ClientIP(),
 		Method:        req.Method,

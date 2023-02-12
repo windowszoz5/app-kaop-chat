@@ -1,9 +1,11 @@
 module drone
 
-go 1.17
+go 1.16
 
 require (
 	github.com/gin-gonic/gin v1.8.2
+	github.com/google/uuid v1.3.0
+	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	google.golang.org/grpc v1.50.1
 	google.golang.org/protobuf v1.28.1
 	gopkg.in/olivere/elastic.v2 v2.0.61

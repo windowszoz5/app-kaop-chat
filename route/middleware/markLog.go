@@ -2,33 +2,30 @@ package middleware
 
 import (
 	"bytes"
-	"context"
 	"drone/common"
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"math/rand"
+	"github.com/google/uuid"
 )
 
 func MarkLog(ctx *gin.Context) {
 	reqUUID := ctx.GetHeader(common.X_REQ_UUID)
 	if reqUUID == "" {
-		reqUUID = fmt.Sprintf("%v", rand.Int())
+		reqUUID = uuid.New().String()
 	}
+
+	//全局便利
+	ctx.Set(common.X_REQ_UUID, reqUUID)
 
 	//初始响应
 	writer := responseWriter{
 		ctx.Writer,
 		bytes.NewBuffer([]byte{}),
 	}
+
 	ctx.Writer = writer
 	ctx.Next()
 
-	//完成请求往下执行
-	ctxc := context.WithValue(ctx.Request.Context(), common.X_REQ_UUID, reqUUID)
-	ctx.Request = ctx.Request.WithContext(ctxc)
-
-	// 响应后执行
-	//latency := time.Since(otime)
+	//响应后执行
 	common.KibLog(ctx, writer.b.String())
 }
 
@@ -43,8 +40,4 @@ func (w responseWriter) Write(b []byte) (int, error) {
 	w.b.Write(b)
 	//完成gin.Context.Writer.Write()原有功能
 	return w.ResponseWriter.Write(b)
-}
-
-func PrintResponse(c *gin.Context) {
-
 }
