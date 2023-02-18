@@ -2,6 +2,7 @@ package common
 
 import (
 	"drone/compose"
+	"drone/config"
 	"fmt"
 	"github.com/gin-gonic/gin"
 )
@@ -48,7 +49,7 @@ func KibLog(ctx *gin.Context, write string) {
 		Message:   write,
 	}
 	_, err := compose.EsClient.Index().
-		Index("master").
+		Index(config.RunConf.Branch).
 		Type("server-product").
 		BodyJson(esData).
 		Do()

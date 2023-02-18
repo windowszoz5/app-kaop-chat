@@ -7,6 +7,7 @@ import (
 	"drone/rpc"
 	"drone/web/middleware"
 	"drone/web/route"
+	"flag"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
@@ -14,9 +15,9 @@ import (
 
 func main() {
 	//初始环境配置
-	var runConf string = "./config/master.json"
-	//flag.StringVar(&runConf, "conf", "", "指定运行环境")
-	//flag.Parse()
+	var runConf string
+	flag.StringVar(&runConf, "conf", "", "指定运行环境")
+	flag.Parse()
 	config.Init(runConf)
 
 	//初始ES
