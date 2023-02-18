@@ -15,6 +15,7 @@ type KibnanaLog struct {
 	TractId   string `json:"tractId"`   //请求UID
 	Method    string `json:"method"`    //请求方法
 	Message   string `json:"message"`   //请求相应
+	Server    string `json:"server"`
 }
 
 func KibLog(ctx *gin.Context, write string) {
@@ -47,15 +48,16 @@ func KibLog(ctx *gin.Context, write string) {
 		Ip:        ctx.ClientIP(),
 		Method:    req.Method,
 		Message:   write,
+		Server:    config.RunConf.Name,
 	}
 	_, err := compose.EsClient.Index().
 		Index(config.RunConf.Branch).
-		Type("server-product").
+		Type("_doc").
 		BodyJson(esData).
 		Do()
 	if err != nil {
 		// Handle base
-		panic(err)
+		fmt.Println(err.Error())
 		return
 	}
 }
