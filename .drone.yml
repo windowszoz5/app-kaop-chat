@@ -19,7 +19,7 @@ steps:
     commands:
       - export GO111MODULE=on
       - export GOPROXY=https://goproxy.cn,direct
-      - go env -w GOPRIVATE="gitee.com"
+      - export GOPRIVATE="gitee.com"
       - go mod tidy
       - go build main.go
   - name: 推送镜像
