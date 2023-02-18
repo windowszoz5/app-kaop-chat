@@ -2,19 +2,18 @@ package common
 
 import (
 	"drone/compose"
-	"drone/config"
 	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
 type KibnanaLog struct {
-	Url       string `json:"url"`        //请求地址
-	Body      string `json:"body"`       //post请求体
-	Ip        string `json:"ip"`         //请求IP
-	ReqHeader string `json:"req_header"` //请求头
-	ReqUUid   string `json:"req_uuid"`   //请求UID
-	Method    string `json:"method"`     //请求方法
-	Message   string `json:"message"`    //请求相应
+	Url       string `json:"url"`       //请求地址
+	Body      string `json:"body"`      //post请求体
+	Ip        string `json:"ip"`        //请求IP
+	ReqHeader string `json:"reqHeader"` //请求头
+	TractId   string `json:"tractId"`   //请求UID
+	Method    string `json:"method"`    //请求方法
+	Message   string `json:"message"`   //请求相应
 }
 
 func KibLog(ctx *gin.Context, write string) {
@@ -42,19 +41,19 @@ func KibLog(ctx *gin.Context, write string) {
 	esData := KibnanaLog{
 		Url:       req.Host + req.URL.String(),
 		Body:      (string)(buf),
-		ReqUUid:   ctx.GetString(X_REQ_UUID),
+		TractId:   ctx.GetString(X_TRACK_ID),
 		ReqHeader: header,
 		Ip:        ctx.ClientIP(),
 		Method:    req.Method,
 		Message:   write,
 	}
 	_, err := compose.EsClient.Index().
-		Index(config.RunConf.Branch).
-		Type(config.RunConf.Name).
+		Index("master").
+		Type("server-product").
 		BodyJson(esData).
 		Do()
 	if err != nil {
-		// Handle error
+		// Handle base
 		panic(err)
 		return
 	}

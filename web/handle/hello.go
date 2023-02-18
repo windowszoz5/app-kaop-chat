@@ -1,14 +1,15 @@
 package handle
 
 import (
-	"drone/common"
-	"drone/server/rpc"
+	"drone/domain"
+	cjh "gitee.com/poppin-jch/cjh"
 	"github.com/gin-gonic/gin"
 )
 
 func Hello(ctx *gin.Context) {
-	common.ProductClient.Ping(ctx, &rpc.Request{Ping: "666"})
-	ctx.JSON(200, map[string]string{
-		"helo": "1",
+	hello := ctx.GetString("hello")
+	data := domain.GetDserver(ctx).Hello(&domain.HelloReq{
+		Hello: hello,
 	})
+	ctx.JSON(200, cjh.Json().ReplaceData(data))
 }

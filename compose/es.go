@@ -10,7 +10,7 @@ var EsClient *elastic.Client
 func InitEs() {
 	client, err := elastic.NewClient(elastic.SetSniff(false), elastic.SetURL("http://43.136.39.33:9200/"))
 	if err != nil {
-		panic("connect es error" + err.Error())
+		panic("connect es base" + err.Error())
 		return
 	}
 	fmt.Println("client", client)

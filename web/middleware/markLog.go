@@ -9,13 +9,13 @@ import (
 
 // MarkLog 标记请求
 func MarkLog(ctx *gin.Context) {
-	reqUUID := ctx.GetHeader(common.X_REQ_UUID)
+	reqUUID := ctx.GetHeader(common.X_TRACK_ID)
 	if reqUUID == "" {
 		reqUUID = uuid.New().String()
 	}
 
 	//全局便利
-	ctx.Set(common.X_REQ_UUID, reqUUID)
+	ctx.Set(common.X_TRACK_ID, reqUUID)
 
 	//初始响应
 	writer := responseWriter{
@@ -35,7 +35,7 @@ type responseWriter struct {
 	b *bytes.Buffer
 }
 
-// 重写 Write([]byte) (int, error) 方法
+// 重写 Write([]byte) (int, base) 方法
 func (w responseWriter) Write(b []byte) (int, error) {
 	//向一个bytes.buffer中写一份数据来为获取body使用
 	w.b.Write(b)

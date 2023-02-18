@@ -4,7 +4,7 @@ import (
 	"drone/common"
 	"drone/compose"
 	"drone/config"
-	"drone/server/rpc"
+	"drone/rpc"
 	"drone/web/middleware"
 	"drone/web/route"
 	"fmt"
