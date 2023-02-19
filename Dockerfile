@@ -3,9 +3,10 @@ FROM golang:1.16 as builder
 WORKDIR /build
 
 COPY . .
-RUN go env -w GO111MODULE=on
-RUN go env -w GOPROXY=https://goproxy.cn,direct
-RUN go build -o main main.go
+RUN export GO111MODULE=on
+RUN export GOPROXY=https://goproxy.cn,direct
+RUN export GOPRIVATE="gitee.com"
+RUN build -o main main.go
 
 FROM alpine
 
