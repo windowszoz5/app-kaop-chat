@@ -13,5 +13,5 @@ spec:
         app: appk8s
     spec:
       containers:
-        - image: wjch/app:0.0.4
+        - image: wjch/apps:0.0.4
           name: app-k8s
