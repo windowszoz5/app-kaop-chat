@@ -5,7 +5,7 @@ WORKDIR /build
 COPY . .
 RUN export GO111MODULE=on
 RUN export GOPROXY=https://goproxy.cn,direct
-RUN export GOPRIVATE="gitee.com"
+RUN export GOPRIVATE=gitee.com
 RUN go mod tidy
 RUN build -o main main.go
 
