@@ -3,16 +3,6 @@ kind: pipeline # 定义一个管道
 name: 执行 # 当前管道的名称
 
 steps:
-  - name: 构建缓存
-    pull: if-not-exists # 如果镜像不存在则拉取,免去每次都要重新下载
-    image: drillster/drone-volume-cache
-    volumes:
-      - name: cache
-        path: /drone/cache
-    settings:
-      restore: true
-      mount:
-        - /drone/nugetpackages
   - name: 编译GO
     image: golang
     commands:
