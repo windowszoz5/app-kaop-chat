@@ -2,7 +2,6 @@ FROM golang:1.16 as builder
 
 WORKDIR /build
 
-ADD go.mod .
 COPY . .
 RUN go build -o main main.go
 
