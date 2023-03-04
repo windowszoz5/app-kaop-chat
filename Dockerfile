@@ -4,9 +4,9 @@ WORKDIR /build
 
 COPY . .
 USER root
-RUN export go env -w GO111MODULE=on
-RUN export go env -w GOPROXY=https://goproxy.io,direct
-RUN export GOPRIVATE=gitee.com
+RUN go env -w GO111MODULE=on
+RUN go env -w GOPROXY=https://goproxy.io,direct
+RUN gi env -w GOPRIVATE=gitee.com
 RUN go mod tidy
 RUN build -o main main.go
 
