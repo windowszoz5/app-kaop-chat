@@ -28,7 +28,7 @@ func main() {
 	r.Use(middleware.MarkLog)
 
 	//连接微服务服务端
-	conn, err := grpc.Dial("127.0.0.1:3366", grpc.WithInsecure(), grpc.WithStatsHandler(&common.ServerStats{}))
+	conn, err := grpc.Dial("127.0.0.1:8080", grpc.WithInsecure(), grpc.WithStatsHandler(&common.ServerStats{}))
 	if err != nil {
 		fmt.Println("Dial err:14552454", err)
 		return
