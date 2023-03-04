@@ -4,11 +4,13 @@ WORKDIR /build
 
 COPY . .
 USER root
-RUN export GO111MODULE=on
-RUN export GOPROXY=https://goproxy.cn,direct
+RUN export go env -w GO111MODULE=on
+RUN export go env -w GOPROXY=https://goproxy.io,direct
 RUN export GOPRIVATE=gitee.com
 RUN go mod tidy
 RUN build -o main main.go
+
+
 
 FROM alpine
 
