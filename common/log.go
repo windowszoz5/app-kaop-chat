@@ -1,8 +1,6 @@
 package common
 
 import (
-	"drone/compose"
-	"drone/config"
 	"fmt"
 	"github.com/gin-gonic/gin"
 )
@@ -20,7 +18,7 @@ type KibnanaLog struct {
 
 func KibLog(ctx *gin.Context, write string) {
 	//post请求头数据
-	buf, _ := ctx.GetRawData()
+	//buf, _ := ctx.GetRawData()
 
 	//获取参数
 	ctx.Request.ParseForm()
@@ -39,25 +37,25 @@ func KibLog(ctx *gin.Context, write string) {
 		header += fmt.Sprintf("%v:%v", i, v)
 	}
 
-	//写入es
-	esData := KibnanaLog{
-		Url:       req.Host + req.URL.String(),
-		Body:      (string)(buf),
-		TractId:   ctx.GetString(X_TRACK_ID),
-		ReqHeader: header,
-		Ip:        ctx.ClientIP(),
-		Method:    req.Method,
-		Message:   write,
-		Server:    config.RunConf.Name,
-	}
-	_, err := compose.EsClient.Index().
-		Index(config.RunConf.Branch).
-		Type("_doc").
-		BodyJson(esData).
-		Do()
-	if err != nil {
-		// Handle base
-		fmt.Println(err.Error())
-		return
-	}
+	////写入es
+	//esData := KibnanaLog{
+	//	Url:       req.Host + req.URL.String(),
+	//	Body:      (string)(buf),
+	//	TractId:   ctx.GetString(X_TRACK_ID),
+	//	ReqHeader: header,
+	//	Ip:        ctx.ClientIP(),
+	//	Method:    req.Method,
+	//	Message:   write,
+	//	Server:    config.RunConf.Name,
+	//}
+	//_, err := compose.EsClient.Index().
+	//	Index(config.RunConf.Branch).
+	//	Type("_doc").
+	//	BodyJson(esData).
+	//	Do()
+	//if err != nil {
+	//	Handle base
+	//fmt.Println(err.Error())
+	//return
+	//}
 }
