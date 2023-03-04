@@ -4,7 +4,7 @@ name: 执行 # 当前管道的名称
 
 steps:
   - name: 编译GO
-    image: golang:1.16
+    image: golang:1.17
     commands:
       - export GO111MODULE=on
       - export GOPROXY=https://goproxy.cn,direct
