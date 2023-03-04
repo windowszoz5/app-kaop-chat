@@ -2,14 +2,14 @@ package handle
 
 import (
 	"drone/domain"
-	cjh "gitee.com/poppin-jch/cjh"
+	//cjh "gitee.com/poppin-jch/cjh"
 	"github.com/gin-gonic/gin"
 )
 
 func Hello(ctx *gin.Context) {
 	hello := ctx.GetString("hello")
-	data := domain.GetDserver(ctx).Hello(&domain.HelloReq{
+	domain.GetDserver(ctx).Hello(&domain.HelloReq{
 		Hello: hello,
 	})
-	ctx.JSON(200, cjh.Json().ReplaceData(data))
+	//ctx.JSON(200, cjh.Json().ReplaceData(data))
 }
