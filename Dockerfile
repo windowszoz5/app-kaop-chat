@@ -9,8 +9,6 @@ RUN env -w GOPRIVATE=gitee.com
 RUN go mod tidy
 RUN build -o main main.go
 
-
-
 FROM alpine
 
 WORKDIR /build
