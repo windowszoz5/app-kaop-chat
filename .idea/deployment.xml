@@ -6,7 +6,7 @@
       <paths name="1">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/www/app" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
