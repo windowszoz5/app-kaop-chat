@@ -16,4 +16,4 @@ WORKDIR /build
 COPY --from=builder /build/main /build/main
 
 CMD ["ls"]
-CMD ["./main -conf ./config/master.json"]
+CMD ["./main"]
