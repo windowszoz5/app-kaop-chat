@@ -10,6 +10,7 @@ steps:
       - export GOPROXY=https://goproxy.cn,direct
       - export GOPRIVATE=gitee.com
       - go mod tidy
+      - export CGO_ENABLED=0
       - go build -o main main.go
   - name: 推送镜像
     image: plugins/docker
