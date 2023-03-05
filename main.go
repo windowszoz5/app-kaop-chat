@@ -18,7 +18,7 @@ func main() {
 	var runConf string
 	flag.StringVar(&runConf, "conf", "", "指定运行环境")
 	flag.Parse()
-	runConf = "./config master.json"
+	runConf = "./config/master.json"
 	config.Init(runConf)
 
 	//初始ES
