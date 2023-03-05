@@ -14,4 +14,5 @@ FROM alpine
 WORKDIR /build
 COPY --from=builder /build/main /build/main
 
+CMD ["ls"]
 CMD ["./main"]
