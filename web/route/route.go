@@ -11,7 +11,7 @@ import (
 
 func Load(r *gin.Engine) {
 	r.GET("/hello", handle.Hello)
-	r.GET("/", echo2)
+	r.GET("/echo", echo2)
 }
 
 var upGrader = websocket.Upgrader{

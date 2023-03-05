@@ -3,9 +3,9 @@ FROM golang:1.17 as builder
 WORKDIR /build
 
 COPY . .
-RUN export GO111MODULE=on
-RUN export GOPROXY=https://goproxy.io,direct
-RUN export GOPRIVATE=gitee.com
+RUN go env -w GO111MODULE=on
+RUN go env -w GOPROXY=https://goproxy.cn,direct
+RUN go env -w GOPRIVATE=gitee.com
 RUN go mod tidy
 RUN build -o main main.go
 
