@@ -4,7 +4,7 @@ WORKDIR /build
 
 ADD . .
 RUN go env -w GO111MODULE=on
-RUN go env -w GOPROXY=https://goproxy.cn,direct
+RUN go env -w GOPROXY=https://goproxy.io,direct
 RUN go env -w GOPRIVATE=gitee.com
 RUN go mod tidy
 RUN go env -w CGO_ENABLED=0
