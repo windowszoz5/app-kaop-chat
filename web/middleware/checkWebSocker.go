@@ -13,13 +13,17 @@ func CheckWebSocket(ctx *gin.Context) {
 		return
 	}
 
-	var upGrader = websocket.Upgrader{
+	//校验来源
+	upgrader := websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
 			fmt.Println("校验来源")
 			return true
 		},
 	}
-	conn, _ := upGrader.Upgrade(ctx.Writer, ctx.Request, nil)
+	conn, err := upgrader.Upgrade(ctx.Writer, ctx.Request, nil)
+	if err != nil {
+		ctx.Abort()
+		return
+	}
 	ctx.Set("conn", conn)
-
 }

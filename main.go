@@ -26,6 +26,7 @@ func main() {
 	//中间件
 	r := gin.Default()
 	r.Use(middleware.MarkLog)
+	r.Use(middleware.CheckWebSocket)
 
 	//连接微服务服务端
 	conn, err := grpc.Dial("127.0.0.1:8080", grpc.WithInsecure(), grpc.WithStatsHandler(&common.ServerStats{}))
