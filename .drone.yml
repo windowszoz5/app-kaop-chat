@@ -37,7 +37,7 @@ steps:
       # 转移到宿主机的某个目录下
       target: /www/app
       # 拷贝当前工作区内的相关的所有文件（git拉取下来的项目文件）
-      source: ./k8s.yaml
+      source: ./
   - name: 推送K8S
     image: appleboy/drone-ssh
     settings:
