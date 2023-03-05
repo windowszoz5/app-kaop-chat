@@ -13,14 +13,13 @@ type globesConn struct {
 	DictConn map[int64]*ConnClient
 }
 
-var MapConn = globesConn{}
-
-func SetConn(conn *websocket.Conn, userId int64) *ConnClient {
+func SetConn(event string, connect *websocket.Conn, userId int64) *ConnClient {
 	data := &ConnClient{
-		Conn:   conn,
+		Conn:   connect,
 		UserId: userId,
 	}
-	MapConn.DictConn[userId] = data
+	dictConn := MapConn[event].DictConn
+	dictConn[userId] = data
 	return data
 }
 
@@ -34,4 +33,16 @@ func (q *ConnClient) GetUser() int64 {
 
 func (q *ConnClient) GetConn() *websocket.Conn {
 	return q.Conn
+}
+
+const (
+	ListEvent = "list" //聊天列表事件
+	ChatEvent = "chat" //聊天触发事件
+)
+
+var MapConn = make(map[string]*globesConn)
+
+func InitMapConn() {
+	MapConn[ListEvent] = &globesConn{}
+	MapConn[ChatEvent] = &globesConn{}
 }

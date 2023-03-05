@@ -7,7 +7,7 @@ RUN go env -w GO111MODULE=on
 RUN go env -w GOPROXY=https://goproxy.cn,direct
 RUN go env -w GOPRIVATE=gitee.com
 RUN go mod tidy
-RUN go build -o main main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' .
 RUN ls
 
 FROM alpine

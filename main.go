@@ -40,5 +40,8 @@ func main() {
 	// 配置路由
 	route.Load(r)
 
+	//初始化事件连接
+	common.InitMapConn()
+
 	r.Run()
 }
